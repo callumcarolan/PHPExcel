@@ -2455,8 +2455,11 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
                             $returnValue[$rRef][$cRef] = $cell->getValue()->getPlainText();
                         } else {
                             if ($calculateFormulas) {
-                                $returnValue[$rRef][$cRef] = $cell->getCalculatedValue();
-                            } else {
+								// NOTE: ADDED BY CALLUMCAROLAN, FALLBACK CALCULATION
+
+								$calcValue = $cell->getOldCalculatedValue();
+								$returnValue[$rRef][$cRef] = (!$calcValue)?$cell->getCalculatedValue():$calcValue;
+							} else {
                                 $returnValue[$rRef][$cRef] = $cell->getValue();
                             }
                         }
